@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <title>Love, Dad. – Daily Affirmations & Positive Parenting Messages for Kids</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Love, Dad. is a free positive parenting app filled with daily affirmations, encouraging messages, emotional support, and confidence-building words to help children feel loved, safe, and understood. Save favorites, create custom messages, and strengthen your bond every day.">
+    <meta name="author" content="Michael Schwartz">
+    <meta name="theme-color" content="#13171f">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <style>[x-cloak] {
+    display: none !important;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: background 0.6s ease, color 0.4s ease;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ----- Light / Dark mode via data-theme ----- */
+[data-theme="light"] {
+    background: #F7F1EA;
+    color: #171412;
+}
+[data-theme="dark"] {
+    background: #0F0F10;
+    color: #F8F3EC;
+}
+
+/* ----- Scrollbar ----- */
+::-webkit-scrollbar {
+    width: 3px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(232, 183, 160, 0.3);
+    border-radius: 8px;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: rgba(232, 183, 160, 0.15);
+}
+
+/* ----- Glass card ----- */
+.glass-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px) saturate(1.6);
+    -webkit-backdrop-filter: blur(20px) saturate(1.6);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 2rem;
+}
+[data-theme="light"] .glass-card {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+[data-theme="dark"] .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* ----- Message bubble (the hero) ----- */
+.message-bubble {
+    border-radius: 2.5rem;
+    padding: 2.5rem 2rem;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+}
+[data-theme="light"] .message-bubble {
+    background: linear-gradient(145deg, #faf0e8, #f5e8de);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.04);
+}
+[data-theme="dark"] .message-bubble {
+    background: linear-gradient(145deg, rgba(40, 35, 32, 0.7), rgba(25, 22, 20, 0.8));
+    border: 1px solid rgba(232, 183, 160, 0.08);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+.message-bubble .signature {
+    margin-top: 1.2rem;
+    font-weight: 400;
+    font-size: 0.95rem;
+    opacity: 0.5;
+    letter-spacing: 0.04em;
+}
+[data-theme="dark"] .message-bubble .signature {
+    opacity: 0.35;
+}
+.message-bubble .category-tag {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.5rem;
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.25;
+    padding: 0.2rem 0.8rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+[data-theme="light"] .message-bubble .category-tag {
+    opacity: 0.2;
+    border-color: rgba(0, 0, 0, 0.04);
+}
+[data-theme="dark"] .message-bubble .category-tag {
+    opacity: 0.15;
+}
+
+/* ----- Message text ----- */
+.msg-text {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+}
+@media (min-width: 480px) {
+    .msg-text {
+        font-size: 1.6rem;
+    }
+}
+
+/* ----- Category pills (horizontal scroll) ----- */
+.pill-scroll {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0.25rem 0.1rem 0.5rem 0.1rem;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+}
+.pill-scroll::-webkit-scrollbar {
+    display: none;
+}
+.pill-cat {
+    flex-shrink: 0;
+    padding: 0.4rem 1.2rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: all 0.2s cubic-bezier(0.34, 1.2, 0.64, 1);
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.02);
+    color: rgba(255, 255, 255, 0.3);
+    font-family: 'Manrope', sans-serif;
+    white-space: nowrap;
+}
+.pill-cat:hover {
+    transform: translateY(-1px);
+}
+.pill-cat:active {
+    transform: scale(0.94);
+}
+.pill-cat.active {
+    background: rgba(232, 183, 160, 0.12);
+    border-color: rgba(232, 183, 160, 0.2);
+    color: #F8F3EC;
+    box-shadow: 0 0 24px rgba(232, 183, 160, 0.03);
+}
+[data-theme="light"] .pill-cat {
+    color: rgba(23, 20, 18, 0.3);
+    border-color: rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.2);
+}
+[data-theme="light"] .pill-cat.active {
+    background: rgba(232, 183, 160, 0.15);
+    border-color: rgba(232, 183, 160, 0.2);
+    color: #171412;
+}
+[data-theme="dark"] .pill-cat.active {
+    color: #F8F3EC;
+}
+
+/* ----- Feeling pills (compact) ----- */
+.feeling-row {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+.pill-feel {
+    padding: 0.3rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.65rem;
+    font-weight: 500;
+    transition: all 0.2s cubic-bezier(0.34, 1.2, 0.64, 1);
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.02);
+    color: rgba(255, 255, 255, 0.25);
+    font-family: 'Manrope', sans-serif;
+}
+.pill-feel:active {
+    transform: scale(0.92);
+}
+.pill-feel.active {
+    background: rgba(242, 200, 121, 0.08);
+    border-color: rgba(242, 200, 121, 0.15);
+    color: #F8F3EC;
+}
+[data-theme="light"] .pill-feel {
+    color: rgba(23, 20, 18, 0.25);
+    border-color: rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.15);
+}
+[data-theme="light"] .pill-feel.active {
+    background: rgba(242, 200, 121, 0.12);
+    border-color: rgba(242, 200, 121, 0.15);
+    color: #171412;
+}
+
+/* ----- Action icons ----- */
+.action-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s cubic-bezier(0.34, 1.2, 0.64, 1);
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.02);
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 1.2rem;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+.action-btn:hover {
+    transform: translateY(-2px);
+}
+.action-btn:active {
+    transform: scale(0.90);
+}
+.action-btn.active {
+    color: #E8B7A0;
+    border-color: rgba(232, 183, 160, 0.15);
+}
+[data-theme="light"] .action-btn {
+    color: rgba(23, 20, 18, 0.25);
+    border-color: rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.2);
+}
+[data-theme="light"] .action-btn.active {
+    color: #C49A85;
+    border-color: rgba(232, 183, 160, 0.15);
+}
+
+/* ----- Bottom navigation ----- */
+.nav-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0px;
+    padding: 6px 14px;
+    border-radius: 1rem;
+    transition: all 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
+    cursor: pointer;
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.2);
+    background: transparent;
+    border: none;
+    min-width: 48px;
+    font-family: 'Manrope', sans-serif;
+    text-transform: uppercase;
+}
+.nav-tab .nav-icon {
+    font-size: 1.3rem;
+    line-height: 1;
+    margin-bottom: 1px;
+    transition: transform 0.2s ease;
+}
+.nav-tab.active {
+    color: #F8F3EC;
+}
+.nav-tab.active .nav-icon {
+    transform: scale(1.04);
+}
+.nav-tab:active {
+    transform: scale(0.92);
+}
+[data-theme="light"] .nav-tab {
+    color: rgba(23, 20, 18, 0.2);
+}
+[data-theme="light"] .nav-tab.active {
+    color: #171412;
+}
+[data-theme="dark"] .nav-tab.active {
+    color: #F8F3EC;
+}
+
+.nav-container {
+    background: rgba(15, 15, 16, 0.75);
+    backdrop-filter: blur(24px) saturate(1.6);
+    -webkit-backdrop-filter: blur(24px) saturate(1.6);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 2rem;
+    padding: 0.3rem 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0 -4px 40px rgba(0, 0, 0, 0.3);
+}
+[data-theme="light"] .nav-container {
+    background: rgba(247, 241, 234, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.02);
+}
+
+/* ----- Toast ----- */
+.toast-premium {
+    background: rgba(15, 15, 16, 0.85);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 1.5rem;
+    padding: 0.8rem 1.6rem;
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.3);
+    color: #F8F3EC;
+    font-weight: 450;
+    font-size: 0.9rem;
+    text-align: center;
+}
+[data-theme="light"] .toast-premium {
+    background: rgba(247, 241, 234, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #171412;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
+}
+
+/* ----- Fade slide ----- */
+.fade-slide {
+    animation: fadeSlide 0.45s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+}
+@keyframes fadeSlide {
+    0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.97);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ----- Inputs (clean, minimal) ----- */
+.input-premium {
+    border-radius: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 0.8rem 1.2rem;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #F8F3EC;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    font-family: 'Manrope', sans-serif;
+}
+.input-premium::placeholder {
+    color: rgba(255, 255, 255, 0.15);
+}
+.input-premium:focus {
+    outline: none;
+    border-color: rgba(232, 183, 160, 0.15);
+    box-shadow: 0 0 0 3px rgba(232, 183, 160, 0.03);
+}
+[data-theme="light"] .input-premium {
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    color: #171412;
+}
+[data-theme="light"] .input-premium::placeholder {
+    color: rgba(23, 20, 18, 0.15);
+}
+[data-theme="light"] .input-premium:focus {
+    border-color: rgba(232, 183, 160, 0.2);
+    box-shadow: 0 0 0 3px rgba(232, 183, 160, 0.04);
+}
+
+.input-premium-dark {
+    border-radius: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 0.8rem 1.2rem;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #F8F3EC;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    font-family: 'Manrope', sans-serif;
+}
+.input-premium-dark::placeholder {
+    color: rgba(255, 255, 255, 0.12);
+}
+.input-premium-dark:focus {
+    outline: none;
+    border-color: rgba(232, 183, 160, 0.12);
+    box-shadow: 0 0 0 3px rgba(232, 183, 160, 0.02);
+}
+[data-theme="light"] .input-premium-dark {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    color: #171412;
+}
+[data-theme="light"] .input-premium-dark::placeholder {
+    color: rgba(23, 20, 18, 0.12);
+}
+
+.select-premium {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23606060' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.2rem center;
+    padding-right: 2.8rem;
+}
+[data-theme="dark"] .select-premium {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23808080' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.btn-generate {
+    border-radius: 9999px;
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s cubic-bezier(0.34, 1.2, 0.64, 1);
+    cursor: pointer;
+    border: none;
+    background: linear-gradient(135deg, #E8B7A0, #DBA88E);
+    color: #0F0F10;
+    box-shadow: 0 4px 24px rgba(232, 183, 160, 0.15);
+    font-family: 'Manrope', sans-serif;
+}
+.btn-generate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(232, 183, 160, 0.2);
+}
+.btn-generate:active {
+    transform: scale(0.95);
+}
+[data-theme="dark"] .btn-generate {
+    color: #0F0F10;
+}
+
+.btn-outline-premium {
+    border-radius: 9999px;
+    padding: 0.7rem 1.6rem;
+    font-weight: 500;
+    font-size: 0.8rem;
+    transition: all 0.2s cubic-bezier(0.34, 1.2, 0.64, 1);
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.02);
+    color: rgba(255, 255, 255, 0.3);
+    font-family: 'Manrope', sans-serif;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+.btn-outline-premium:hover {
+    border-color: rgba(232, 183, 160, 0.1);
+}
+.btn-outline-premium:active {
+    transform: scale(0.94);
+}
+[data-theme="light"] .btn-outline-premium {
+    color: rgba(23, 20, 18, 0.3);
+    border-color: rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.15);
+}
+[data-theme="light"] .btn-outline-premium:hover {
+    border-color: rgba(232, 183, 160, 0.15);
+}
+
+.btn-support {
+    border-radius: 9999px;
+    padding: 0.7rem 1.6rem;
+    font-weight: 600;
+    font-size: 0.8rem;
+    transition: all 0.2s cubic-bezier(0.34, 1.2, 0.64, 1);
+    cursor: pointer;
+    border: 1px solid rgba(232, 183, 160, 0.15);
+    background: rgba(232, 183, 160, 0.04);
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Manrope', sans-serif;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.btn-support:hover {
+    background: rgba(232, 183, 160, 0.08);
+    border-color: rgba(232, 183, 160, 0.25);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(232, 183, 160, 0.06);
+}
+.btn-support:active {
+    transform: scale(0.94);
+}
+[data-theme="light"] .btn-support {
+    color: rgba(23, 20, 18, 0.5);
+    border-color: rgba(232, 183, 160, 0.15);
+    background: rgba(232, 183, 160, 0.04);
+}
+[data-theme="light"] .btn-support:hover {
+    background: rgba(232, 183, 160, 0.08);
+    border-color: rgba(232, 183, 160, 0.2);
+}
+[data-theme="dark"] .btn-support {
+    color: rgba(248, 243, 236, 0.5);
+}
+[data-theme="dark"] .btn-support:hover {
+    color: rgba(248, 243, 236, 0.7);
+}
+
+.btn-danger-outline {
+    border-radius: 9999px;
+    padding: 0.6rem 1.4rem;
+    font-weight: 500;
+    font-size: 0.75rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 1px solid rgba(255, 100, 100, 0.06);
+    background: rgba(255, 100, 100, 0.02);
+    color: rgba(255, 100, 100, 0.3);
+    font-family: 'Manrope', sans-serif;
+}
+.btn-danger-outline:hover {
+    border-color: rgba(255, 100, 100, 0.12);
+    color: rgba(255, 100, 100, 0.4);
+}
+.btn-danger-outline:active {
+    transform: scale(0.94);
+}
+[data-theme="light"] .btn-danger-outline {
+    color: rgba(200, 80, 80, 0.25);
+    border-color: rgba(200, 80, 80, 0.04);
+}
+[data-theme="light"] .btn-danger-outline:hover {
+    border-color: rgba(200, 80, 80, 0.1);
+}
+
+.text-soft {
+    color: rgba(255, 255, 255, 0.2);
+}
+[data-theme="light"] .text-soft {
+    color: rgba(23, 20, 18, 0.2);
+}
+
+.divider-glow {
+    border-color: rgba(255, 255, 255, 0.02);
+}
+[data-theme="light"] .divider-glow {
+    border-color: rgba(0, 0, 0, 0.02);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    opacity: 0.2;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+.empty-state .big {
+    font-size: 2.6rem;
+    display: block;
+    margin-bottom: 0.6rem;
+    opacity: 0.4;
+}
+
+.saved-item {
+    border-radius: 1.5rem;
+    padding: 1.2rem 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    transition: all 0.2s ease;
+}
+[data-theme="light"] .saved-item {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.saved-item:hover {
+    border-color: rgba(232, 183, 160, 0.06);
+}
+
+.safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0.5rem);
+}
+
+/* Profile pill */
+.profile-pill {
+    padding: 0.2rem 1rem 0.2rem 0.8rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: 'Manrope', sans-serif;
+}
+[data-theme="light"] .profile-pill {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(0, 0, 0, 0.04);
+    color: rgba(23, 20, 18, 0.25);
+}
+.profile-pill .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #E8B7A0;
+}
+
+/* Create tab textarea */
+.textarea-premium {
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 1.2rem 1.4rem;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #F8F3EC;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    font-family: 'Manrope', sans-serif;
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+}
+.textarea-premium::placeholder {
+    color: rgba(255, 255, 255, 0.1);
+}
+.textarea-premium:focus {
+    outline: none;
+    border-color: rgba(232, 183, 160, 0.12);
+    box-shadow: 0 0 0 3px rgba(232, 183, 160, 0.02);
+}
+[data-theme="light"] .textarea-premium {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    color: #171412;
+}
+[data-theme="light"] .textarea-premium::placeholder {
+    color: rgba(23, 20, 18, 0.1);
+}
+
+/* Footer links */
+.footer-link {
+    color: rgba(255, 255, 255, 0.15);
+    transition: color 0.2s ease;
+    text-decoration: none;
+    font-size: 0.55rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.footer-link:hover {
+    color: rgba(255, 255, 255, 0.3);
+}
+[data-theme="light"] .footer-link {
+    color: rgba(23, 20, 18, 0.12);
+}
+[data-theme="light"] .footer-link:hover {
+    color: rgba(23, 20, 18, 0.25);
+}
+.footer-divider {
+    color: rgba(255, 255, 255, 0.05);
+}
+[data-theme="light"] .footer-divider {
+    color: rgba(23, 20, 18, 0.04);
+}</style>
+  </head>
+  <body>
+<!-- ===== APP CONTAINER ===== -->
+<div class="relative container mx-auto px-4 pb-28 pt-4 min-h-screen" x-cloak x-data="app()" x-init="init()">
+
+    <!-- ===== TOAST ===== -->
+    <div x-show="toastMessage" x-transition:enter.duration.300ms class="fixed top-4 left-4 right-4 max-w-md mx-auto z-50 pointer-events-none" style="max-width: 400px;">
+        <div class="toast-premium pointer-events-auto" x-text="toastMessage"></div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- TODAY TAB -->
+    <!-- ========================================================== -->
+    <div x-show="tab === 'today'" x-cloak class="fade-slide space-y-5">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-[0.6rem] font-semibold tracking-[0.15em] uppercase text-soft">Love, Dad.</p>
+                <h1 class="text-2xl font-bold tracking-tight mt-0.5" x-text="greeting"></h1>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="profile-pill">
+                    <span class="dot"></span>
+                    <span x-text="childName || 'sweetheart'"></span>
+                </div>
+                <button @click="toggleTheme()" class="action-btn" style="width: 38px; height: 38px; font-size: 0.9rem;">
+                    <span x-text="darkMode ? '☀️' : '🌙'"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Subtitle -->
+        <p class="text-[0.7rem] font-medium text-soft tracking-[0.04em] -mt-1">For the days she needs to hear it.</p>
+
+        <!-- ===== MAIN MESSAGE STAGE ===== -->
+        <div class="message-bubble fade-slide" x-data="{ show: false }" x-init="$nextTick(() => { show = true })" :class="{ 'opacity-100': show, 'opacity-0': !show }" style="transition: opacity 0.5s ease;">
+            <span class="category-tag" x-text="currentCategory"></span>
+            <div class="msg-text" x-text="currentMessage"></div>
+            <div class="signature" x-text="'— ' + (relationship || 'Dad')"></div>
+        </div>
+
+        <!-- ===== CATEGORY CAROUSEL ===== -->
+        <div class="space-y-1.5">
+            <p class="text-[0.5rem] font-semibold tracking-[0.12em] uppercase text-soft">Category</p>
+            <div class="pill-scroll">
+                <template x-for="cat in messageCategories" :key="cat">
+                    <button @click="selectCategory(cat)" class="pill-cat" :class="currentCategory === cat ? 'active' : ''" x-text="cat"></button>
+                </template>
+            </div>
+        </div>
+
+        <!-- ===== FEELING SELECTOR ===== -->
+        <div class="space-y-1.5">
+            <p class="text-[0.5rem] font-semibold tracking-[0.12em] uppercase text-soft">How are you feeling?</p>
+            <div class="feeling-row">
+                <template x-for="(label, key) in feelingsList" :key="key">
+                    <button @click="showFeeling(key)" class="pill-feel" :class="activeFeeling === key ? 'active' : ''" x-text="label"></button>
+                </template>
+            </div>
+        </div>
+
+        <!-- ===== ACTION BAR ===== -->
+        <div class="flex items-center gap-2 pt-1">
+            <button @click="generateNewMessage()" class="action-btn" title="New message">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9"/></svg>
+            </button>
+            <button @click="copyText(currentMessage)" class="action-btn" title="Copy">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+            <button @click="shareMessage(currentMessage)" class="action-btn" title="Share">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            </button>
+            <button @click="toggleFavorite(currentCategory, currentMessage)" class="action-btn" :class="isFavorite(currentCategory, currentMessage) ? 'active' : ''" title="Save">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </button>
+        </div>
+
+        <!-- ===== FEELING RESPONSE (inline) ===== -->
+        <div x-show="activeFeeling && feelingResponse" class="fade-slide space-y-2 pt-1">
+            <div class="glass-card p-5 rounded-2xl space-y-2" style="border-radius: 1.5rem;">
+                <p class="text-xs font-medium text-soft" x-text="'💛 ' + feelingsList[activeFeeling]"></p>
+                <p class="text-sm leading-relaxed" x-text="feelingResponse.validation"></p>
+                <p class="text-sm leading-relaxed opacity-70" x-text="feelingResponse.grounding"></p>
+                <p class="text-sm leading-relaxed font-medium" x-text="feelingResponse.love"></p>
+                <p class="text-sm leading-relaxed opacity-60" x-text="'→ ' + feelingResponse.nextStep"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- CREATE TAB -->
+    <!-- ========================================================== -->
+    <div x-show="tab === 'create'" x-cloak class="fade-slide space-y-5">
+
+        <div class="flex items-center justify-between">
+            <h2 class="text-xl font-bold tracking-tight">Create</h2>
+            <span class="text-[0.55rem] font-medium text-soft tracking-[0.08em] uppercase">Parent mode</span>
+        </div>
+
+        <!-- Category + Tone -->
+        <div class="space-y-3">
+            <div>
+                <label class="text-[0.55rem] font-semibold tracking-[0.08em] uppercase text-soft block mb-1.5">Category</label>
+                <div class="pill-scroll" style="gap: 0.4rem;">
+                    <template x-for="cat in messageCategories" :key="cat">
+                        <button @click="msgCategory = cat; generateCustomMessage()" class="pill-cat" :class="msgCategory === cat ? 'active' : ''" x-text="cat" style="font-size:0.65rem; padding:0.3rem 1rem;"></button>
+                    </template>
+                </div>
+            </div>
+            <div>
+                <label class="text-[0.55rem] font-semibold tracking-[0.08em] uppercase text-soft block mb-1.5">Tone</label>
+                <div class="flex flex-wrap gap-1.5">
+                    <template x-for="tone in messageTones" :key="tone">
+                        <button @click="msgTone = tone; generateCustomMessage()" class="pill-cat" :class="msgTone === tone ? 'active' : ''" x-text="tone" style="font-size:0.55rem; padding:0.2rem 0.9rem; text-transform:uppercase; letter-spacing:0.06em;"></button>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generate -->
+        <button @click="generateCustomMessage()" class="btn-generate w-full text-center">✨ Generate Message</button>
+
+        <!-- Edit area -->
+        <div class="space-y-3">
+            <textarea x-model="editMessage" class="textarea-premium" placeholder="Edit your message here..."></textarea>
+            <div class="flex items-center gap-2">
+                <button @click="copyText(editMessage)" class="btn-outline-premium text-sm">📋 Copy</button>
+                <button @click="shareMessage(editMessage)" class="btn-outline-premium text-sm">↗ Share</button>
+                <button @click="toggleFavorite(msgCategory, editMessage)" class="btn-outline-premium text-sm" x-text="isFavorite(msgCategory, editMessage) ? '⭐ Saved' : '☆ Save'"></button>
+            </div>
+        </div>
+
+        <!-- Custom message form -->
+        <div class="glass-card p-5 rounded-2xl space-y-3 mt-2">
+            <p class="text-sm font-medium">✏️ Add your own message</p>
+            <input type="text" x-model="customTitle" class="input-premium" placeholder="Title (e.g. 'For tough days')" />
+            <textarea x-model="customMessage" class="textarea-premium" style="min-height:80px;" placeholder="Write your message..."></textarea>
+            <div class="grid grid-cols-2 gap-2">
+                <select x-model="customCategory" class="input-premium select-premium" style="padding:0.7rem 1rem;">
+                    <template x-for="cat in messageCategories" :key="cat">
+                        <option :value="cat" x-text="cat"></option>
+                    </template>
+                </select>
+                <select x-model="customTone" class="input-premium select-premium" style="padding:0.7rem 1rem;">
+                    <template x-for="tone in messageTones" :key="tone">
+                        <option :value="tone" x-text="tone"></option>
+                    </template>
+                </select>
+            </div>
+            <select x-model="customUse" class="input-premium select-premium" style="padding:0.7rem 1rem;">
+                <option value="both">Both Modes</option>
+                <option value="child">Child Mode Only</option>
+                <option value="parent">Parent Mode Only</option>
+            </select>
+            <button @click="saveCustomMessage()" class="btn-outline-premium w-full py-2.5 text-sm">💾 Save Custom</button>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- SAVED TAB -->
+    <!-- ========================================================== -->
+    <div x-show="tab === 'saved'" x-cloak class="fade-slide space-y-4">
+
+        <div class="flex items-center justify-between">
+            <h2 class="text-xl font-bold tracking-tight">Saved</h2>
+            <span class="text-[0.55rem] font-medium text-soft" x-text="favorites.length + ' items'"></span>
+        </div>
+
+        <div x-show="favorites.length === 0" class="empty-state">
+            <span class="big">☆</span>
+            No saved messages yet.<br />Tap the star on any message to save it.
+        </div>
+
+        <div class="space-y-3 max-h-[65vh] overflow-y-auto pr-1 pb-4">
+            <template x-for="(fav, idx) in favorites.slice().reverse()" :key="idx">
+                <div class="saved-item fade-slide">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-1">
+                            <p class="text-sm leading-relaxed" x-text="fav.text"></p>
+                            <div class="flex items-center gap-2 mt-1.5">
+                                <span class="text-[0.45rem] font-semibold tracking-[0.1em] uppercase text-soft" x-text="fav.category"></span>
+                            </div>
+                        </div>
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button @click="copyText(fav.text)" class="action-btn" style="width:34px;height:34px;font-size:0.8rem;">📋</button>
+                            <button @click="removeFavorite(favorites.length - 1 - idx)" class="action-btn" style="width:34px;height:34px;font-size:0.8rem;color:rgba(255,100,100,0.25);">✕</button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- PARENT TAB -->
+    <!-- ========================================================== -->
+    <div x-show="tab === 'parent'" x-cloak class="fade-slide space-y-5">
+
+        <div class="flex items-center justify-between">
+            <h2 class="text-xl font-bold tracking-tight">Parent</h2>
+            <span class="text-[0.55rem] font-medium text-soft">⚙️ settings</span>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl space-y-4">
+            <div>
+                <label class="text-[0.55rem] font-semibold tracking-[0.08em] uppercase text-soft block mb-1">Child's Name</label>
+                <input type="text" x-model="childName" @input="saveNames()" class="input-premium" placeholder="Enter child's name" />
+            </div>
+            <div>
+                <label class="text-[0.55rem] font-semibold tracking-[0.08em] uppercase text-soft block mb-1">Parent's Name</label>
+                <input type="text" x-model="parentName" @input="saveNames()" class="input-premium" placeholder="Enter your name" />
+            </div>
+            <div>
+                <label class="text-[0.55rem] font-semibold tracking-[0.08em] uppercase text-soft block mb-1">Relationship</label>
+                <select x-model="relationship" @change="saveNames()" class="input-premium select-premium" style="padding:0.7rem 1rem;">
+                    <option value="Dad">Dad</option>
+                    <option value="Mom">Mom</option>
+                    <option value="Parent">Parent</option>
+                    <option value="Grandma">Grandma</option>
+                    <option value="Grandpa">Grandpa</option>
+                    <option value="Guardian">Guardian</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl space-y-3">
+            <p class="text-sm font-medium">💾 Data</p>
+            <div class="flex gap-2">
+                <button @click="exportData()" class="btn-outline-premium text-xs py-1.5 px-4 flex-1 text-center">📤 Export</button>
+                <label class="btn-outline-premium text-xs py-1.5 px-4 flex-1 text-center cursor-pointer">
+                    📥 Import
+                    <input type="file" accept=".json" @change="importData($event)" class="hidden" />
+                </label>
+            </div>
+            <button @click="clearAllData()" class="btn-danger-outline w-full text-center">🗑️ Clear All Data</button>
+        </div>
+
+        <!-- ===== SUPPORT SECTION ===== -->
+        <div class="glass-card p-5 rounded-2xl space-y-3">
+            <p class="text-sm font-medium">💛 Support</p>
+            <div class="flex flex-col sm:flex-row gap-2">
+                <a href="https://michaelsboost.com/donate" target="_blank" rel="noopener noreferrer" class="btn-support w-full sm:w-auto flex-1 text-center">
+                    <span>❤️</span> Donate
+                </a>
+                <a href="https://github.com/michaelsboost/love-dad" target="_blank" rel="noopener noreferrer" class="btn-support w-full sm:w-auto flex-1 text-center">
+                    <span>📂</span> Source Code
+                </a>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="text-center flex items-center justify-center gap-2 text-[0.45rem] font-medium tracking-[0.08em] uppercase text-soft select-none opacity-30 mt-1">
+            <a href="https://michaelsboost.com/donate" target="_blank" rel="noopener noreferrer" class="footer-link">Donate</a>
+            <span class="footer-divider">·</span>
+            <a href="https://github.com/yourusername/love-dad" target="_blank" rel="noopener noreferrer" class="footer-link">Source</a>
+            <span class="footer-divider">·</span>
+            <span class="footer-link" style="cursor:default;opacity:0.5;">Love, Dad. v2.0</span>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- BOTTOM NAVIGATION (4 tabs) -->
+    <!-- ========================================================== -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 safe-bottom">
+        <div class="max-w-md mx-auto px-3 pb-3">
+            <div class="nav-container">
+                <button @click="tab = 'today'" class="nav-tab" :class="tab === 'today' ? 'active' : ''">
+                    <span class="nav-icon">💬</span>
+                    <span>Today</span>
+                </button>
+                <button @click="tab = 'create'" class="nav-tab" :class="tab === 'create' ? 'active' : ''">
+                    <span class="nav-icon">✏️</span>
+                    <span>Create</span>
+                </button>
+                <button @click="tab = 'saved'" class="nav-tab" :class="tab === 'saved' ? 'active' : ''">
+                    <span class="nav-icon">⭐</span>
+                    <span>Saved</span>
+                </button>
+                <button @click="tab = 'parent'" class="nav-tab" :class="tab === 'parent' ? 'active' : ''">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Parent</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+</div>
+
+    <script src="https://michaelsboost.com/TailwindCSSMod/tailwind-mod.min.js"></script>
+    <script>
+function app() {
+    return {
+        // ---- STATE ----
+        tab: 'today',
+        darkMode: false,
+        childName: 'sweetheart',
+        parentName: 'Dad',
+        relationship: 'Dad',
+
+        // Message
+        currentCategory: 'Love',
+        currentMessage: '',
+        editMessage: '',
+
+        // Create
+        msgCategory: 'Love',
+        msgTone: 'neutral',
+
+        // Feelings
+        activeFeeling: null,
+        feelingResponse: null,
+
+        // Custom form
+        customTitle: '',
+        customMessage: '',
+        customCategory: 'Love',
+        customTone: 'neutral',
+        customUse: 'both',
+
+        // Favorites
+        favorites: [],
+        customMessages: [],
+
+        // Toast
+        toastMessage: '',
+        toastTimeout: null,
+
+        // ---- CATEGORIES & TONES ----
+        messageCategories: ['Morning', 'Night', 'Love', 'Proud', 'Confidence', 'Hard Day', 'Mistake', 'School',
+            'Friends', 'Worry', 'Courage', 'Sad', 'Angry', 'Lonely', 'Birthday', 'Random'
+        ],
+        messageTones: ['short', 'sweet', 'deep', 'gentle', 'strong', 'funny', 'fatherly', 'motherly',
+            'neutral'],
+
+        feelingsList: {
+            sad: 'Sad',
+            angry: 'Angry',
+            worried: 'Worried',
+            lonely: 'Lonely',
+            scared: 'Scared',
+            leftout: 'Left Out',
+            notgoodenough: 'Not Good Enough',
+            imessedup: 'I Messed Up'
+        },
+
+        // ---- COMPUTED ----
+        get greeting() {
+            const hour = new Date().getHours();
+            let time = 'Good morning';
+            if (hour >= 12 && hour < 17) time = 'Good afternoon';
+            else if (hour >= 17) time = 'Good evening';
+            const name = this.childName || 'sweetheart';
+            return `${time}, ${name}`;
+        },
+
+        // ---- INIT ----
+        init() {
+            this.loadAllData();
+            // Read initial data-theme from html (IDE may have set it)
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                this.darkMode = false;
+            } else if (currentTheme === 'dark') {
+                this.darkMode = true;
+            } else {
+                // default to dark if not set
+                this.darkMode = true;
+                html.setAttribute('data-theme', 'dark');
+            }
+            // Apply theme and save to localStorage if needed
+            this.applyTheme();
+            // set up observer for external theme changes (IDE)
+            this.setupThemeObserver();
+            this.generateNewMessage();
+        },
+
+        // ---- THEME MANAGEMENT ----
+        applyTheme() {
+            const html = document.documentElement;
+            html.setAttribute('data-theme', this.darkMode ? 'dark' : 'light');
+            // also save to localStorage
+            try {
+                localStorage.setItem('loveDad_darkMode', JSON.stringify(this.darkMode));
+            } catch (e) {}
+        },
+
+        toggleTheme() {
+            this.darkMode = !this.darkMode;
+            this.applyTheme();
+        },
+
+        setupThemeObserver() {
+            const html = document.documentElement;
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.attributeName === 'data-theme') {
+                        const newTheme = html.getAttribute('data-theme');
+                        const newDark = newTheme === 'dark';
+                        if (newDark !== this.darkMode) {
+                            this.darkMode = newDark;
+                            // save to localStorage
+                            try {
+                                localStorage.setItem('loveDad_darkMode', JSON.stringify(this
+                                .darkMode));
+                            } catch (e) {}
+                        }
+                    }
+                });
+            });
+            observer.observe(html, { attributes: true });
+        },
+
+        // ---- TOAST ----
+        showToast(msg) {
+            this.toastMessage = msg;
+            if (this.toastTimeout) clearTimeout(this.toastTimeout);
+            this.toastTimeout = setTimeout(() => { this.toastMessage = ''; }, 2400);
+        },
+
+        // ---- COPY / SHARE ----
+        copyText(text) {
+            if (!text) return;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    this.showToast('📋 Copied!');
+                }).catch(() => {
+                    this.fallbackCopy(text);
+                });
+            } else {
+                this.fallbackCopy(text);
+            }
+        },
+        fallbackCopy(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            try {
+                document.execCommand('copy');
+                this.showToast('📋 Copied!');
+            } catch (e) {
+                this.showToast('Could not copy');
+            }
+            document.body.removeChild(el);
+        },
+        shareMessage(text) {
+            if (!text) return;
+            if (navigator.share) {
+                navigator.share({ title: 'Love, Dad.', text: text }).catch(() => {});
+            } else {
+                this.copyText(text);
+            }
+        },
+
+        // ---- MESSAGE GENERATION ----
+        generateNewMessage() {
+            const category = this.currentCategory === 'Random' ?
+                this.messageCategories.filter(c => c !== 'Random')[Math.floor(Math.random() * this.messageCategories
+                    .filter(c => c !== 'Random').length)] :
+                this.currentCategory;
+            if (category !== this.currentCategory) this.currentCategory = category;
+            const pool = this.getAllMessagesForCategory(category);
+            this.currentMessage = pool.length ? pool[Math.floor(Math.random() * pool.length)] :
+                "You are deeply loved, no matter what.";
+            this.editMessage = this.currentMessage;
+            // Reset feeling
+            this.activeFeeling = null;
+            this.feelingResponse = null;
+        },
+
+        selectCategory(cat) {
+            this.currentCategory = cat;
+            this.generateNewMessage();
+        },
+
+        getBuiltInMessages(category) {
+            const map = {
+                'Morning': this.morningMessages,
+                'Night': this.nightMessages,
+                'Love': this.loveMessages,
+                'Proud': this.prideMessages,
+                'Confidence': this.confidenceMessages,
+                'Hard Day': this.hardDayMessages,
+                'Mistake': this.mistakesMessages,
+                'School': this.schoolMessages,
+                'Friends': this.friendshipMessages,
+                'Worry': this.worryMessages,
+                'Courage': this.courageMessages,
+                'Sad': this.sadnessMessages,
+                'Angry': this.angerMessages,
+                'Lonely': this.lonelinessMessages,
+                'Birthday': this.birthdayMessages,
+            };
+            return map[category] || [];
+        },
+
+        getAllMessagesForCategory(category) {
+            const builtIn = this.getBuiltInMessages(category) || [];
+            const custom = this.customMessages
+                .filter(c => c.category === category && (c.use === 'both' || c.use === 'child'))
+                .map(c => c.message);
+            // Add some fallback if empty
+            if (builtIn.length === 0 && custom.length === 0) {
+                return ["You are loved, always."];
+            }
+            return [...builtIn, ...custom];
+        },
+
+        // ---- CREATE TAB ----
+        generateCustomMessage() {
+            let category = this.msgCategory;
+            if (category === 'Random') {
+                const cats = this.messageCategories.filter(c => c !== 'Random');
+                category = cats[Math.floor(Math.random() * cats.length)];
+                this.msgCategory = category;
+            }
+            const pool = this.getAllMessagesForCategory(category);
+            const msg = pool.length ? pool[Math.floor(Math.random() * pool.length)] :
+                "You are deeply loved, no matter what.";
+            this.editMessage = msg;
+            this.currentMessage = msg;
+            this.currentCategory = category;
+            this.showToast('✨ New message generated');
+        },
+
+        // ---- FEELINGS ----
+        showFeeling(key) {
+            this.activeFeeling = key;
+            this.feelingResponse = this.getFeelingResponse(key);
+            // Also set the main message to the validation + love
+            if (this.feelingResponse) {
+                this.currentMessage = this.feelingResponse.validation + ' ' + this.feelingResponse.love;
+                this.currentCategory = '💛 ' + this.feelingsList[key];
+            }
+        },
+
+        getFeelingResponse(key) {
+            const map = {
+                sad: {
+                    validation: "It's okay to feel sad. You don't have to pretend.",
+                    grounding: "Take a slow breath. You are safe.",
+                    love: "I love you on sad days too. You are not alone.",
+                    nextStep: "Can you do one small thing that brings you comfort?"
+                },
+                angry: {
+                    validation: "Anger is a signal that something matters to you.",
+                    grounding: "Pause. Breathe before you react.",
+                    love: "I love you even when you're angry. You're still good.",
+                    nextStep: "Can you name what's underneath the anger?"
+                },
+                worried: {
+                    validation: "Worry is your mind trying to protect you.",
+                    grounding: "One step at a time. You only need to handle the next thing.",
+                    love: "You don't have to carry worry alone. I'm here.",
+                    nextStep: "Can you write down one worry and set it aside?"
+                },
+                lonely: {
+                    validation: "Feeling lonely is human. You are not forgotten.",
+                    grounding: "You are seen and known, even when you feel alone.",
+                    love: "I am thinking of you right now. You are loved.",
+                    nextStep: "Can you reach out to someone, even a small text?"
+                },
+                scared: {
+                    validation: "Fear is natural. It doesn't mean you're weak.",
+                    grounding: "You are safe right now. Breathe deeply.",
+                    love: "I believe in you, even when you're scared.",
+                    nextStep: "Can you take one small step forward, even if scared?"
+                },
+                leftout: {
+                    validation: "Feeling left out is painful. It's okay to feel that.",
+                    grounding: "You belong here. You matter.",
+                    love: "You are not excluded from my heart. Never.",
+                    nextStep: "Can you do something kind for yourself right now?"
+                },
+                notgoodenough: {
+                    validation: "That feeling is a liar. You are enough.",
+                    grounding: "You don't have to prove your worth. It's already there.",
+                    love: "I love you because of who you are, not what you do.",
+                    nextStep: "Can you name three things you like about yourself?"
+                },
+                imessedup: {
+                    validation: "You made a mistake, but that does not make you a bad kid.",
+                    grounding: "Take a breath. This moment doesn't define you.",
+                    love: "I love you through mistakes too. Always.",
+                    nextStep: "Can you tell the truth, make it right, and move forward?"
+                }
+            };
+            return map[key] || {
+                validation: "I'm here with you.",
+                grounding: "Breathe.",
+                love: "You are loved.",
+                nextStep: "Be gentle with yourself."
+            };
+        },
+
+        // ---- FAVORITES ----
+        toggleFavorite(category, text) {
+            if (!text || !text.trim()) return;
+            const exists = this.favorites.some(f => f.text === text && f.category === category);
+            if (exists) {
+                this.favorites = this.favorites.filter(f => !(f.text === text && f.category === category));
+                this.saveFavorites();
+                this.showToast('☆ Removed from saved');
+            } else {
+                this.favorites.push({ category, text, savedAt: new Date().toISOString() });
+                this.saveFavorites();
+                this.showToast('⭐ Saved!');
+            }
+        },
+        isFavorite(category, text) {
+            if (!text || !text.trim()) return false;
+            return this.favorites.some(f => f.text === text && f.category === category);
+        },
+        removeFavorite(index) {
+            if (!confirm('Remove from saved?')) return;
+            this.favorites.splice(index, 1);
+            this.saveFavorites();
+            this.showToast('🗑️ Removed');
+        },
+        saveFavorites() {
+            try { localStorage.setItem('loveDad_favorites', JSON.stringify(this.favorites)); } catch (e) {}
+        },
+
+        // ---- CUSTOM MESSAGES ----
+        saveCustomMessage() {
+            if (!this.customTitle.trim() || !this.customMessage.trim()) {
+                this.showToast('✏️ Please enter a title and message.');
+                return;
+            }
+            this.customMessages.push({
+                title: this.customTitle.trim(),
+                message: this.customMessage.trim(),
+                category: this.customCategory,
+                tone: this.customTone,
+                use: this.customUse,
+                createdAt: new Date().toISOString()
+            });
+            this.customTitle = '';
+            this.customMessage = '';
+            this.customCategory = 'Love';
+            this.customTone = 'neutral';
+            this.customUse = 'both';
+            this.saveCustomMessages();
+            this.showToast('✅ Custom message saved!');
+        },
+        saveCustomMessages() {
+            try { localStorage.setItem('loveDad_customMessages', JSON.stringify(this.customMessages)); } catch (
+            e) {}
+        },
+
+        // ---- NAMES ----
+        saveNames() {
+            try {
+                localStorage.setItem('loveDad_childName', this.childName);
+                localStorage.setItem('loveDad_parentName', this.parentName);
+                localStorage.setItem('loveDad_relationship', this.relationship);
+            } catch (e) {}
+        },
+
+        // ---- DARK MODE ----
+        saveDarkMode() {
+            // This is now handled by applyTheme, but keep for compatibility
+            try { localStorage.setItem('loveDad_darkMode', JSON.stringify(this.darkMode)); } catch (e) {}
+        },
+
+        // ---- EXPORT / IMPORT ----
+        exportData() {
+            const data = {
+                childName: this.childName,
+                parentName: this.parentName,
+                relationship: this.relationship,
+                darkMode: this.darkMode,
+                favorites: this.favorites,
+                customMessages: this.customMessages,
+                exportedAt: new Date().toISOString()
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `love-dad-backup-${new Date().toISOString().slice(0,10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            this.showToast('📤 Data exported!');
+        },
+        importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.childName) this.childName = data.childName;
+                    if (data.parentName) this.parentName = data.parentName;
+                    if (data.relationship) this.relationship = data.relationship;
+                    if (data.darkMode !== undefined) {
+                        this.darkMode = data.darkMode;
+                        this.applyTheme();
+                    }
+                    if (data.favorites) this.favorites = data.favorites;
+                    if (data.customMessages) this.customMessages = data.customMessages;
+                    this.saveAllData();
+                    this.generateNewMessage();
+                    this.showToast('📥 Imported successfully!');
+                } catch (err) {
+                    this.showToast('❌ Invalid data file.');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        },
+
+        // ---- CLEAR ----
+        clearAllData() {
+            if (!confirm('⚠️ Delete ALL saved data? This cannot be undone.')) return;
+            if (!confirm('Are you sure? All favorites and custom messages will be gone.')) return;
+            this.favorites = [];
+            this.customMessages = [];
+            this.childName = 'sweetheart';
+            this.parentName = 'Dad';
+            this.relationship = 'Dad';
+            this.darkMode = true;
+            this.applyTheme();
+            this.saveAllData();
+            this.generateNewMessage();
+            this.showToast('🗑️ All data cleared.');
+        },
+
+        // ---- SAVE / LOAD ----
+        saveAllData() {
+            this.saveNames();
+            this.saveDarkMode();
+            this.saveFavorites();
+            this.saveCustomMessages();
+        },
+        loadAllData() {
+            try {
+                const child = localStorage.getItem('loveDad_childName');
+                if (child) this.childName = child;
+                const parent = localStorage.getItem('loveDad_parentName');
+                if (parent) this.parentName = parent;
+                const rel = localStorage.getItem('loveDad_relationship');
+                if (rel) this.relationship = rel;
+                // We'll read darkMode from localStorage but will override with html attribute later
+                const dark = localStorage.getItem('loveDad_darkMode');
+                if (dark !== null) {
+                    // Store temporarily, will be overridden by html attribute in init
+                    this.darkMode = JSON.parse(dark);
+                }
+                const fav = localStorage.getItem('loveDad_favorites');
+                if (fav) this.favorites = JSON.parse(fav);
+                const custom = localStorage.getItem('loveDad_customMessages');
+                if (custom) this.customMessages = JSON.parse(custom);
+            } catch (e) { console.warn('Data load error, using defaults.'); }
+        },
+
+        // ---- MESSAGE DATA (250+ built-in) ----
+        morningMessages: [
+            "Good morning, sweetheart. Today is a new day full of possibilities. You are loved.",
+            "Wake up, sunshine. The world is better with you in it. Have a beautiful day.",
+            "Morning, my love. You don't have to be perfect today—just be you.",
+            "Good morning! One day at a time, one step at a time. I believe in you.",
+            "Rise and shine, kiddo. You are capable of amazing things.",
+            "Morning, brave one. Today is yours. Go make it meaningful.",
+            "Good morning! You are loved on good days and hard days.",
+            "Wake up with gratitude. You are a gift to this world.",
+            "Morning, sweet pea. Start with a gentle heart and see where the day takes you.",
+            "Good morning! You don't have to have it all figured out. Just start.",
+        ],
+        nightMessages: [
+            "Good night, my love. You did enough today. Rest peacefully.",
+            "Sleep well, sweetheart. Tomorrow is a fresh start.",
+            "Good night, brave girl. I'm so proud of you.",
+            "Rest your head, my darling. You are deeply loved.",
+            "Night night. May your dreams be peaceful and your heart be light.",
+            "Sleep tight. You are not alone. I'm always with you.",
+            "Good night! You are more than enough. Always.",
+            "Rest easy, kiddo. You've done well today.",
+            "Sleep peacefully. I love you to the moon and back.",
+            "Good night! Tomorrow is another chance to shine.",
+        ],
+        loveMessages: [
+            "I love you. Not because of what you do, but because of who you are.",
+            "You are loved more than you know.",
+            "My love for you is constant—on good days, hard days, and every day.",
+            "You are the best thing I ever did. I love you.",
+            "No matter what, I love you. Full stop.",
+            "You are deeply, unconditionally loved.",
+            "I love you, and I'm so glad you're mine.",
+            "You don't have to earn my love. It's already yours.",
+            "My heart is full because of you. I love you.",
+            "You are loved, always and forever.",
+        ],
+        prideMessages: [
+            "I am so proud of the person you are becoming.",
+            "You handled today with grace. I'm proud of you.",
+            "I am proud of you, not for what you achieve, but for who you are.",
+            "You make me proud every day, just by being you.",
+            "I see your effort, and I'm so proud.",
+            "You are growing, learning, and trying. That makes me proud.",
+            "I am proud of your heart, your kindness, and your strength.",
+            "You don't have to be perfect to make me proud. You already do.",
+            "I am so proud to be your parent.",
+            "Your courage inspires me. I'm so proud.",
+        ],
+        confidenceMessages: [
+            "You are more capable than you know. Trust yourself.",
+            "You don't have to be perfect to be amazing.",
+            "Your voice matters. Use it.",
+            "You have everything you need inside you.",
+            "You are enough, just as you are.",
+            "Believe in yourself the way I believe in you.",
+            "You are stronger than you think.",
+            "You can do hard things. I know you can.",
+            "Your uniqueness is your strength.",
+            "You are worthy, capable, and loved.",
+        ],
+        hardDayMessages: [
+            "Today was hard, but you made it. I'm proud of you.",
+            "You don't have to be okay right now. I'm here.",
+            "Hard days don't last. You do.",
+            "You got through today. That's a win.",
+            "It's okay to have a hard day. You're still loved.",
+            "One bad day does not define you.",
+            "You are not alone in this. I'm with you.",
+            "Take a breath. You're going to be okay.",
+            "This feeling will pass. You are strong.",
+            "You are loved, even when today is hard.",
+        ],
+        mistakesMessages: [
+            "You made a mistake, but that does not make you a bad kid.",
+            "Mistakes mean you're learning. Keep going.",
+            "One wrong step does not define your whole journey.",
+            "You can mess up and still be worthy of love.",
+            "Mistakes are how we grow. I'm proud you're trying.",
+            "You don't have to be perfect to be valuable.",
+            "Tell the truth, make it right, and move forward.",
+            "You are not your mistakes. You are so much more.",
+            "Everyone makes mistakes. What matters is what you do next.",
+            "I love you through mistakes too. Always.",
+        ],
+        schoolMessages: [
+            "You are smart, capable, and you belong at school.",
+            "Do your best, and that's enough. I'm proud of you.",
+            "School is hard sometimes, but you are strong.",
+            "You don't have to be the best. Just be you.",
+            "Ask for help when you need it. That's strength.",
+            "Your mind is a gift. Use it with kindness.",
+            "You are learning, growing, and doing great.",
+            "One test doesn't define you. You are so much more.",
+            "You are a curious, intelligent person. Keep going.",
+            "I believe in you and your ability to learn.",
+        ],
+        friendshipMessages: [
+            "You are a good friend, and you deserve good friends.",
+            "Friendship is about kindness, honesty, and trust.",
+            "You don't have to be friends with everyone. Just be kind.",
+            "You are worthy of strong, healthy friendships.",
+            "Be the kind of friend you'd want to have.",
+            "It's okay to outgrow friendships. That's part of life.",
+            "You are a loyal and caring person. Your friends are lucky.",
+            "You are never alone. You have people who love you.",
+            "True friends see you and accept you as you are.",
+            "You are a gift to your friends.",
+        ],
+        worryMessages: [
+            "Worry is a feeling, not a fact. You are safe.",
+            "One step at a time. You don't have to solve everything.",
+            "Your mind is trying to protect you. Thank it, and breathe.",
+            "You can't control everything, and that's okay.",
+            "What if it works out? What if you're okay?",
+            "Worry is like a rocking chair—it gives you something to do but doesn't get you anywhere.",
+            "You are not alone in your worry. I'm here.",
+            "Take a deep breath. You can handle this.",
+            "You've survived every hard moment before this one.",
+            "Your worry doesn't change the outcome. Your courage does.",
+        ],
+        courageMessages: [
+            "Courage isn't not being scared. It's being scared and trying anyway.",
+            "You are braver than you believe.",
+            "Every brave step makes the next one easier.",
+            "You can be scared and still be brave.",
+            "Bravery is doing what's right, even when it's hard.",
+            "You have courage in you. I've seen it.",
+            "Being afraid doesn't make you weak. It makes you human.",
+            "Take one brave step today.",
+            "You are courageous just by showing up.",
+            "Your heart is brave, even when it trembles.",
+        ],
+        sadnessMessages: [
+            "It's okay to be sad. You don't have to pretend.",
+            "Sadness is a normal part of being human.",
+            "You are not alone in your sadness.",
+            "I love you on sad days too.",
+            "Let yourself feel it. It will pass.",
+            "You are still worthy, even when you're sad.",
+            "Sadness doesn't last forever. You will feel better.",
+            "I'm here with you, even in the sad moments.",
+            "You are allowed to feel sad. It's okay.",
+            "You are loved, even when you're sad.",
+        ],
+        angerMessages: [
+            "Anger is a signal that something matters to you.",
+            "You can be angry and still be a good person.",
+            "Take a breath before you react.",
+            "Your feelings are valid, even the angry ones.",
+            "What's underneath the anger? Take a moment.",
+            "You are still loved, even when you're angry.",
+            "Anger is energy. Use it wisely.",
+            "It's okay to feel angry. It's not okay to hurt others.",
+            "You can be angry and still be kind.",
+            "I love you, even when you're angry.",
+        ],
+        lonelinessMessages: [
+            "You are not forgotten. I'm thinking of you.",
+            "Loneliness is a feeling, not a fact.",
+            "You are loved, even when you feel alone.",
+            "You are not alone. You are seen and known.",
+            "I'm here with you, always.",
+            "You matter, even when you feel lonely.",
+            "Reach out. You are not a burden.",
+            "Your loneliness doesn't define you.",
+            "You are part of something bigger. You belong.",
+            "I love you, and I'm here.",
+        ],
+        birthdayMessages: [
+            "Happy birthday! You are such a gift to me.",
+            "Another year, another reason to be proud of you.",
+            "You are growing into such an amazing person.",
+            "Happy birthday, my love. You are so special.",
+            "I'm so grateful you were born. You changed my life.",
+            "You are a beautiful soul. Happy birthday.",
+            "May this year bring you joy, growth, and love.",
+            "You are my greatest joy. Happy birthday.",
+            "I love you more than words can say. Happy birthday.",
+            "You are a blessing. Happy birthday, sweetheart.",
+        ],
+    };
+}
+</script>
+  </body>
+</html>

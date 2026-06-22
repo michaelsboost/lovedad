@@ -1,0 +1,286 @@
+<!-- ===== APP CONTAINER ===== -->
+<div class="relative container mx-auto px-4 pb-28 pt-4 min-h-screen" x-cloak x-data="app()" x-init="init()">
+
+    <!-- ===== TOAST ===== -->
+    <div x-show="toastMessage" x-transition:enter.duration.300ms class="fixed top-4 left-4 right-4 max-w-md mx-auto z-50 pointer-events-none" style="max-width: 400px;">
+        <div class="toast-premium pointer-events-auto" x-text="toastMessage"></div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- TODAY TAB -->
+    <!-- ========================================================== -->
+    <div x-show="tab === 'today'" x-cloak class="fade-slide space-y-5">
+
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-[0.6rem] font-semibold tracking-[0.15em] uppercase text-soft">Love, Dad.</p>
+                <h1 class="text-2xl font-bold tracking-tight mt-0.5" x-text="greeting"></h1>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="profile-pill">
+                    <span class="dot"></span>
+                    <span x-text="childName || 'sweetheart'"></span>
+                </div>
+                <button @click="toggleTheme()" class="action-btn" style="width: 38px; height: 38px; font-size: 0.9rem;">
+                    <span x-text="darkMode ? '☀️' : '🌙'"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Subtitle -->
+        <p class="text-[0.7rem] font-medium text-soft tracking-[0.04em] -mt-1">For the days she needs to hear it.</p>
+
+        <!-- ===== MAIN MESSAGE STAGE ===== -->
+        <div class="message-bubble fade-slide" x-data="{ show: false }" x-init="$nextTick(() => { show = true })" :class="{ 'opacity-100': show, 'opacity-0': !show }" style="transition: opacity 0.5s ease;">
+            <span class="category-tag" x-text="currentCategory"></span>
+            <div class="msg-text" x-text="currentMessage"></div>
+            <div class="signature" x-text="'— ' + (relationship || 'Dad')"></div>
+        </div>
+
+        <!-- ===== CATEGORY CAROUSEL ===== -->
+        <div class="space-y-1.5">
+            <p class="text-[0.5rem] font-semibold tracking-[0.12em] uppercase text-soft">Category</p>
+            <div class="pill-scroll">
+                <template x-for="cat in messageCategories" :key="cat">
+                    <button @click="selectCategory(cat)" class="pill-cat" :class="currentCategory === cat ? 'active' : ''" x-text="cat"></button>
+                </template>
+            </div>
+        </div>
+
+        <!-- ===== FEELING SELECTOR ===== -->
+        <div class="space-y-1.5">
+            <p class="text-[0.5rem] font-semibold tracking-[0.12em] uppercase text-soft">How are you feeling?</p>
+            <div class="feeling-row">
+                <template x-for="(label, key) in feelingsList" :key="key">
+                    <button @click="showFeeling(key)" class="pill-feel" :class="activeFeeling === key ? 'active' : ''" x-text="label"></button>
+                </template>
+            </div>
+        </div>
+
+        <!-- ===== ACTION BAR ===== -->
+        <div class="flex items-center gap-2 pt-1">
+            <button @click="generateNewMessage()" class="action-btn" title="New message">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9"/></svg>
+            </button>
+            <button @click="copyText(currentMessage)" class="action-btn" title="Copy">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+            <button @click="shareMessage(currentMessage)" class="action-btn" title="Share">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+            </button>
+            <button @click="toggleFavorite(currentCategory, currentMessage)" class="action-btn" :class="isFavorite(currentCategory, currentMessage) ? 'active' : ''" title="Save">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </button>
+        </div>
+
+        <!-- ===== FEELING RESPONSE (inline) ===== -->
+        <div x-show="activeFeeling && feelingResponse" class="fade-slide space-y-2 pt-1">
+            <div class="glass-card p-5 rounded-2xl space-y-2" style="border-radius: 1.5rem;">
+                <p class="text-xs font-medium text-soft" x-text="'💛 ' + feelingsList[activeFeeling]"></p>
+                <p class="text-sm leading-relaxed" x-text="feelingResponse.validation"></p>
+                <p class="text-sm leading-relaxed opacity-70" x-text="feelingResponse.grounding"></p>
+                <p class="text-sm leading-relaxed font-medium" x-text="feelingResponse.love"></p>
+                <p class="text-sm leading-relaxed opacity-60" x-text="'→ ' + feelingResponse.nextStep"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- CREATE TAB -->
+    <!-- ========================================================== -->
+    <div x-show="tab === 'create'" x-cloak class="fade-slide space-y-5">
+
+        <div class="flex items-center justify-between">
+            <h2 class="text-xl font-bold tracking-tight">Create</h2>
+            <span class="text-[0.55rem] font-medium text-soft tracking-[0.08em] uppercase">Parent mode</span>
+        </div>
+
+        <!-- Category + Tone -->
+        <div class="space-y-3">
+            <div>
+                <label class="text-[0.55rem] font-semibold tracking-[0.08em] uppercase text-soft block mb-1.5">Category</label>
+                <div class="pill-scroll" style="gap: 0.4rem;">
+                    <template x-for="cat in messageCategories" :key="cat">
+                        <button @click="msgCategory = cat; generateCustomMessage()" class="pill-cat" :class="msgCategory === cat ? 'active' : ''" x-text="cat" style="font-size:0.65rem; padding:0.3rem 1rem;"></button>
+                    </template>
+                </div>
+            </div>
+            <div>
+                <label class="text-[0.55rem] font-semibold tracking-[0.08em] uppercase text-soft block mb-1.5">Tone</label>
+                <div class="flex flex-wrap gap-1.5">
+                    <template x-for="tone in messageTones" :key="tone">
+                        <button @click="msgTone = tone; generateCustomMessage()" class="pill-cat" :class="msgTone === tone ? 'active' : ''" x-text="tone" style="font-size:0.55rem; padding:0.2rem 0.9rem; text-transform:uppercase; letter-spacing:0.06em;"></button>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generate -->
+        <button @click="generateCustomMessage()" class="btn-generate w-full text-center">✨ Generate Message</button>
+
+        <!-- Edit area -->
+        <div class="space-y-3">
+            <textarea x-model="editMessage" class="textarea-premium" placeholder="Edit your message here..."></textarea>
+            <div class="flex items-center gap-2">
+                <button @click="copyText(editMessage)" class="btn-outline-premium text-sm">📋 Copy</button>
+                <button @click="shareMessage(editMessage)" class="btn-outline-premium text-sm">↗ Share</button>
+                <button @click="toggleFavorite(msgCategory, editMessage)" class="btn-outline-premium text-sm" x-text="isFavorite(msgCategory, editMessage) ? '⭐ Saved' : '☆ Save'"></button>
+            </div>
+        </div>
+
+        <!-- Custom message form -->
+        <div class="glass-card p-5 rounded-2xl space-y-3 mt-2">
+            <p class="text-sm font-medium">✏️ Add your own message</p>
+            <input type="text" x-model="customTitle" class="input-premium" placeholder="Title (e.g. 'For tough days')" />
+            <textarea x-model="customMessage" class="textarea-premium" style="min-height:80px;" placeholder="Write your message..."></textarea>
+            <div class="grid grid-cols-2 gap-2">
+                <select x-model="customCategory" class="input-premium select-premium" style="padding:0.7rem 1rem;">
+                    <template x-for="cat in messageCategories" :key="cat">
+                        <option :value="cat" x-text="cat"></option>
+                    </template>
+                </select>
+                <select x-model="customTone" class="input-premium select-premium" style="padding:0.7rem 1rem;">
+                    <template x-for="tone in messageTones" :key="tone">
+                        <option :value="tone" x-text="tone"></option>
+                    </template>
+                </select>
+            </div>
+            <select x-model="customUse" class="input-premium select-premium" style="padding:0.7rem 1rem;">
+                <option value="both">Both Modes</option>
+                <option value="child">Child Mode Only</option>
+                <option value="parent">Parent Mode Only</option>
+            </select>
+            <button @click="saveCustomMessage()" class="btn-outline-premium w-full py-2.5 text-sm">💾 Save Custom</button>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- SAVED TAB -->
+    <!-- ========================================================== -->
+    <div x-show="tab === 'saved'" x-cloak class="fade-slide space-y-4">
+
+        <div class="flex items-center justify-between">
+            <h2 class="text-xl font-bold tracking-tight">Saved</h2>
+            <span class="text-[0.55rem] font-medium text-soft" x-text="favorites.length + ' items'"></span>
+        </div>
+
+        <div x-show="favorites.length === 0" class="empty-state">
+            <span class="big">☆</span>
+            No saved messages yet.<br />Tap the star on any message to save it.
+        </div>
+
+        <div class="space-y-3 max-h-[65vh] overflow-y-auto pr-1 pb-4">
+            <template x-for="(fav, idx) in favorites.slice().reverse()" :key="idx">
+                <div class="saved-item fade-slide">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-1">
+                            <p class="text-sm leading-relaxed" x-text="fav.text"></p>
+                            <div class="flex items-center gap-2 mt-1.5">
+                                <span class="text-[0.45rem] font-semibold tracking-[0.1em] uppercase text-soft" x-text="fav.category"></span>
+                            </div>
+                        </div>
+                        <div class="flex gap-1 flex-shrink-0">
+                            <button @click="copyText(fav.text)" class="action-btn" style="width:34px;height:34px;font-size:0.8rem;">📋</button>
+                            <button @click="removeFavorite(favorites.length - 1 - idx)" class="action-btn" style="width:34px;height:34px;font-size:0.8rem;color:rgba(255,100,100,0.25);">✕</button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- PARENT TAB -->
+    <!-- ========================================================== -->
+    <div x-show="tab === 'parent'" x-cloak class="fade-slide space-y-5">
+
+        <div class="flex items-center justify-between">
+            <h2 class="text-xl font-bold tracking-tight">Parent</h2>
+            <span class="text-[0.55rem] font-medium text-soft">⚙️ settings</span>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl space-y-4">
+            <div>
+                <label class="text-[0.55rem] font-semibold tracking-[0.08em] uppercase text-soft block mb-1">Child's Name</label>
+                <input type="text" x-model="childName" @input="saveNames()" class="input-premium" placeholder="Enter child's name" />
+            </div>
+            <div>
+                <label class="text-[0.55rem] font-semibold tracking-[0.08em] uppercase text-soft block mb-1">Parent's Name</label>
+                <input type="text" x-model="parentName" @input="saveNames()" class="input-premium" placeholder="Enter your name" />
+            </div>
+            <div>
+                <label class="text-[0.55rem] font-semibold tracking-[0.08em] uppercase text-soft block mb-1">Relationship</label>
+                <select x-model="relationship" @change="saveNames()" class="input-premium select-premium" style="padding:0.7rem 1rem;">
+                    <option value="Dad">Dad</option>
+                    <option value="Mom">Mom</option>
+                    <option value="Parent">Parent</option>
+                    <option value="Grandma">Grandma</option>
+                    <option value="Grandpa">Grandpa</option>
+                    <option value="Guardian">Guardian</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl space-y-3">
+            <p class="text-sm font-medium">💾 Data</p>
+            <div class="flex gap-2">
+                <button @click="exportData()" class="btn-outline-premium text-xs py-1.5 px-4 flex-1 text-center">📤 Export</button>
+                <label class="btn-outline-premium text-xs py-1.5 px-4 flex-1 text-center cursor-pointer">
+                    📥 Import
+                    <input type="file" accept=".json" @change="importData($event)" class="hidden" />
+                </label>
+            </div>
+            <button @click="clearAllData()" class="btn-danger-outline w-full text-center">🗑️ Clear All Data</button>
+        </div>
+
+        <!-- ===== SUPPORT SECTION ===== -->
+        <div class="glass-card p-5 rounded-2xl space-y-3">
+            <p class="text-sm font-medium">💛 Support</p>
+            <div class="flex flex-col sm:flex-row gap-2">
+                <a href="https://michaelsboost.com/donate" target="_blank" rel="noopener noreferrer" class="btn-support w-full sm:w-auto flex-1 text-center">
+                    <span>❤️</span> Donate
+                </a>
+                <a href="https://github.com/michaelsboost/love-dad" target="_blank" rel="noopener noreferrer" class="btn-support w-full sm:w-auto flex-1 text-center">
+                    <span>📂</span> Source Code
+                </a>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="text-center flex items-center justify-center gap-2 text-[0.45rem] font-medium tracking-[0.08em] uppercase text-soft select-none opacity-30 mt-1">
+            <a href="https://michaelsboost.com/donate" target="_blank" rel="noopener noreferrer" class="footer-link">Donate</a>
+            <span class="footer-divider">·</span>
+            <a href="https://github.com/yourusername/love-dad" target="_blank" rel="noopener noreferrer" class="footer-link">Source</a>
+            <span class="footer-divider">·</span>
+            <span class="footer-link" style="cursor:default;opacity:0.5;">Love, Dad. v2.0</span>
+        </div>
+    </div>
+
+    <!-- ========================================================== -->
+    <!-- BOTTOM NAVIGATION (4 tabs) -->
+    <!-- ========================================================== -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 safe-bottom">
+        <div class="max-w-md mx-auto px-3 pb-3">
+            <div class="nav-container">
+                <button @click="tab = 'today'" class="nav-tab" :class="tab === 'today' ? 'active' : ''">
+                    <span class="nav-icon">💬</span>
+                    <span>Today</span>
+                </button>
+                <button @click="tab = 'create'" class="nav-tab" :class="tab === 'create' ? 'active' : ''">
+                    <span class="nav-icon">✏️</span>
+                    <span>Create</span>
+                </button>
+                <button @click="tab = 'saved'" class="nav-tab" :class="tab === 'saved' ? 'active' : ''">
+                    <span class="nav-icon">⭐</span>
+                    <span>Saved</span>
+                </button>
+                <button @click="tab = 'parent'" class="nav-tab" :class="tab === 'parent' ? 'active' : ''">
+                    <span class="nav-icon">⚙️</span>
+                    <span>Parent</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+</div>
