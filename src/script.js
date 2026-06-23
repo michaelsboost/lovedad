@@ -154,14 +154,77 @@ window.app = function app() {
             }
             document.body.removeChild(el);
         },
-        shareMessage(text) {
-            if (!text) return;
-            if (navigator.share) {
-                navigator.share({ title: 'Love, Dad.', text: text }).catch(() => {});
-            } else {
-                this.copyText(text);
+        async shareApp() {
+          const shareData = {
+            title: 'Love, Dad.',
+            text: 'Love, Dad. — daily encouragement, affirmations, and messages from Dad.',
+            url: window.location.href
+          };
+        
+          try {
+            if (navigator.share && window.isSecureContext) {
+              await navigator.share(shareData);
+              return;
             }
+        
+            if (navigator.clipboard && window.isSecureContext) {
+              await navigator.clipboard.writeText(shareData.url);
+              alert('Love, Dad. link copied to clipboard.');
+              return;
+            }
+        
+            const tempInput = document.createElement('textarea');
+            tempInput.value = shareData.url;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+        
+            alert('Love, Dad. link copied to clipboard.');
+          } catch (err) {
+            alert('Sharing is not available here. Try after publishing the app online.');
+          }
         },
+        async shareMessage(text = '') {
+          const shareData = {
+              title: 'Love, Dad.',
+              text: text,
+              url: window.location.href
+          };
+      
+          try {
+              if (navigator.share && window.isSecureContext) {
+                  await navigator.share(shareData);
+                  return;
+              }
+      
+              // Fallback: copy the message and URL
+              const copyText = [
+                  text,
+                  '',
+                  window.location.href
+              ].filter(Boolean).join('\n');
+      
+              if (navigator.clipboard && window.isSecureContext) {
+                  await navigator.clipboard.writeText(copyText);
+              } else {
+                  const tempInput = document.createElement('textarea');
+                  tempInput.value = copyText;
+                  document.body.appendChild(tempInput);
+                  tempInput.select();
+                  document.execCommand('copy');
+                  document.body.removeChild(tempInput);
+              }
+      
+              // Optional: show your QR code modal here
+              this.showQrCode = true;
+              this.qrCodeText = window.location.href;
+      
+              alert('Message and link copied to clipboard.');
+          } catch (err) {
+              console.error(err);
+          }
+      },
 
         // ---- MESSAGE GENERATION ----
         generateNewMessage() {
